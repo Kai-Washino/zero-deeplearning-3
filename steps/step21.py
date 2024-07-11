@@ -194,8 +194,8 @@ b = Variable(np.array(2.0))
 c = Variable(np.array(1.0))
 
 # y = add(mul(a, b), c)
-y = 3 * 2 + np.array(2.0)
-# y.backward()
+y = 3 * a + np.array(2.0)
+y.backward()
 
 print(y)
 print(a.grad)
