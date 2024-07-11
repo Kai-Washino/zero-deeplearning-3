@@ -7,12 +7,12 @@ import contextlib
 # =============================================================================
 
 class Config:
-    enable_backdrop = True
+    enable_backprop = True
 
 @contextlib.contextmanager
 def using_config(name, value):
-    old_value = getattr(Config, name) # 今のConfigのnameつまりenable_backdropをgetする．
-    setattr(Config, name, value) # enable_backdropをvalueにsetする．
+    old_value = getattr(Config, name) # 今のConfigのnameつまりenable_backpropをgetする．
+    setattr(Config, name, value) # enable_backpropをvalueにsetする．
     try:
         yield # 一旦関数の処理を止める．つまりwithで呼び出したそれ以降を実行する．
 
@@ -21,7 +21,7 @@ def using_config(name, value):
 
 # 毎回return部分を書くのが面倒なので作った関数
 def no_grad():
-    return using_config('enable_backdrop', False)
+    return using_config('enable_backprop', False)
 
 
 # =============================================================================
