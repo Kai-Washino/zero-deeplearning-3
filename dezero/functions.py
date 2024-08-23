@@ -156,3 +156,13 @@ class MatMul(Function):
     
 def matmul(x, W):
     return MatMul()(x, W)
+
+def linear_simple(x, W, b = None):
+    x, W = as_variable(x), as_variable(W)
+    t = matmul(x, W)
+    if b is None:
+        return t
+    
+    y = t + b
+    t.data = None
+    return y
