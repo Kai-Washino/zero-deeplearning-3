@@ -43,6 +43,19 @@ class Tanh(Function):
 def tanh(x):
     return Tanh()(x)
 
+class Exp(Function):
+    def forward(self, x):        
+        y = np.exp(x)
+        return y
+
+    def backward(self, gy):
+        y = self.outputs[0]()  # weakref
+        gx = gy * y
+        return gx
+
+def exp(x):
+    return Exp()(x)
+
 class Reshape(Function):
     def __init__(self, shape):
         self.shape = shape
@@ -165,4 +178,9 @@ def linear_simple(x, W, b = None):
     
     y = t + b
     t.data = None
+    return y
+
+def sigmoid_simple(x):
+    x = as_variable(x)
+    y = 1 / (1 + exp(-x))
     return y
