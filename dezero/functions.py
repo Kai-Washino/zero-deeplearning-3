@@ -205,9 +205,9 @@ def mean_squared_error(x0, x1):
 
 class Sigmoid(Function):
     def forward(self, x):
-        xp = cuda.get_array_module(x)
-        # y = 1 / (1 + xp.exp(-x))
-        y = xp.tanh(x * 0.5) * 0.5 + 0.5  # Better implementation
+        # xp = cuda.get_array_module(x)
+        y = 1 / (1 + np.exp(-x))
+        # y = xp.tanh(x * 0.5) * 0.5 + 0.5  # Better implementation
         return y
 
     def backward(self, gy):
