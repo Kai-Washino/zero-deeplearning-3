@@ -237,3 +237,40 @@ class Linear(Function):
 
 def linear(x, W, b=None):
     return Linear()(x, W, b)
+
+def softmax_simple(x, axis = 1):
+    x = as_variable(x)
+    y = exp(y)
+    sum_y = sum(y, axis = axis, keepdims=True)
+    return y / sum_y
+
+def softmax_cross_entropy_simple(x, t):
+    x, t = as_variable(x), as_variable(t)
+    N = x.shape[0]
+
+    p = softmax_simple(x)
+    p = clip(p, le-15, 1.0)
+    log_p = log(p)
+    tlog_p = log_p[np.arrange(N), t.data]
+    y = -1 * sum(tlog_p) / N
+    return y
+
+
+class Clip(Function):
+    def __init__(self, x_min, x_max):
+        self.x_min = x_min
+        self.x_max = x_max
+
+    def forward(self, x):        
+        y = x.clip(x, self.x_min, self.x_max)
+        return y
+
+    def backward(self, gy):
+        x, = self.inputs
+        mask = (x.data >= self.x_min) * (x.data <= self.x_max)
+        gx = gy * mask
+        return gx
+
+
+def clip(x, x_min, x_max):
+    return Clip(x_min, x_max)(x)
